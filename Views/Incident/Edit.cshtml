@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Test_Owin_Identity.Models.IncidentUserModel>
+@{
+    ViewBag.Title = "Form Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="jumbotron" style="height:250px">
+    <h2 style="text-align:center"> Form Details </h2>
+    <br />
+    <br />
+
+    <div class="col-md-12">
+        @foreach (var item in Model)
+        {
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">User Name:</div><div class="col-md-6">@item.UserName</div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">Place:</div><div class="col-md-6">@item.Place</div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">Incident:</div><div class="col-md-6">@item.Incident</div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">Date:</div><div class="col-md-6">@item.Date</div>
+            </div>
+        }
+        <div>
+            @Html.ActionLink("Back to List", "Display")
+        </div>
+        @*<div class="form-group">
+            <div class="col-md-3"></div>
+
+            <div class="col-md-3">Date:</div><div class="col-md-6">@Model.Date</div>
+        </div>*@
+    </div>
+
+</div>

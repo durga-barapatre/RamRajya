@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Create Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CreateForm</h2>
+
+<div class="jumbotron">
+    <input style="text-align:center" type="button"
+           value="Create Form"
+           onclick="location.href='@Url.Action("Index", "Incident")'" />
+    <input style="text-align:center" type="button"
+           value="Assign"
+           onclick="location.href='@Url.Action("GetUsers", "Dashboard")'" />
+    <input style="text-align:center" type="button"
+           value="Show"
+           onclick="location.href='@Url.Action("Display", "Incident")'" />
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Home")
+</div>

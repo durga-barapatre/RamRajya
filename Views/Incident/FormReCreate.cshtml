@@ -1,0 +1,87 @@
+﻿
+@model Test_Owin_Identity.Models.IncidentUserModel
+@{
+    ViewBag.Title = "Form ";
+}
+
+<div class="carousel-caption"></div>
+<hr />
+<div style="width:90%; margin:0 auto;">
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Place</th>
+                <th>Incident</th>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>Is Resolve</th>
+            </tr>
+        </thead>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.UserName);
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Place);
+
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Incident);
+            </td>
+            <td>
+                @Html.DatePickerFor(model => model.Date);
+            </td>
+        </tr>
+    </table>
+</div>
+<style>
+    tr.even {
+        background-color: #F5F5F5 !important;
+    }
+</style>
+@* Load datatable css *@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@* Load datatable js *@
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "ajax": {
+                    "url": "/Incident/FormReCreates",
+                    "type": "POST",
+                    "datatype": "json",
+
+                },
+                "columns": [
+                    {"data":"UserName"},
+                    { "data": "Place" },
+                    { "data": "Incident", "autoWidth": true },
+                    { "data": "Date", "autoWidth": true },
+                    {
+                       "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Edit?id=' + full.Id + '">Display</a>'; }
+                      //  "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Edit?'">Edit</a>'; }
+
+                    },
+                    {
+                        "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Resolve?id=' + full.Id + '">Problem Resolved</a>'; }
+                        //  "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Edit?'">Edit</a>'; }
+
+                    }
+
+                ]
+            });
+        });
+    </script>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@*<div>
+    <input type="button"
+           value="Problem Resolved"
+           onclick="location.href='@Url.Action("Index", "Incident")'" />
+</div>*@
+

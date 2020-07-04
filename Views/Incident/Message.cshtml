@@ -1,0 +1,210 @@
+﻿@model Test_Owin_Identity.Models.IncidentUserModel
+@{
+    ViewBag.Title = "Message";
+}
+
+<div class="carousel-caption"></div>
+<hr />
+
+<script>
+
+    var userRole = '@Html.Raw(Json.Encode(ViewBag.Role))'
+    var NoKing = "Minister";
+    
+    var ResultRole = null;
+   
+    if (userRole == "true") {
+        alert("User role is Minister");
+        ResultRole = true;
+        
+    }
+    else {
+
+        alert("User role King");
+        ResultRole = false;
+    }
+
+   
+
+</script>
+<div style="width:90%; margin:0 auto;">
+
+    <table id="myTable">
+        @*<thead>
+
+            <tr>
+                <th>UserName</th>
+                <th>Place</th>
+                <th>Incident</th>
+                <th>Date</th>
+                <th>Display</th>
+
+                <th id="IsResolve">IsResolve</th>
+
+            </tr>
+
+        </thead>*@
+
+
+    </table>
+</div>
+<style>
+    tr.even {
+        background-color: #F5F5F5 !important;
+    }
+</style>
+@* Load datatable css *@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@* Load datatable js *@
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //alert("call Datatable");
+           
+            debugger;
+            $('#myTable').DataTable({
+
+                //"columnDefs": [
+
+                //    {
+
+                //        'targets': [4],
+                //        'render': function (data, type, row, meta) {
+                //            if (false) {
+                //               return table.columns([4].title).visible(false);
+                //            }
+
+
+                //        }
+                //    }
+                //,
+                //// "visible": false, "targets": 5
+
+                //{
+
+                //    'targets': [5],
+                //    'render': function (data, type, row, meta) {
+                //        if (false) {
+                //            table.columns([5]).visible(false);
+
+                //        }
+                //    }
+                //}
+
+
+                //],
+                "ajax": {
+                    "url": "/Incident/Message",
+                    "type": "POST",
+                    "datatype": "json",
+
+
+                },
+
+                "columns": [
+                    { "data": "UserName", "title": "User Name" },
+                    { "data": "Place", "title": "Place" },
+                    { "data": "Incident", "title": "Incident", "autoWidth": true },
+                    {
+                        "data": "Date", "title": "Date", "autoWidth": true,
+                        "render": function (value) {
+                            if (value === null) return "";
+
+                            var pattern = /Date\(([^)]+)\)/;
+                            var results = pattern.exec(value);
+                            var dt = new Date(parseFloat(results[1]));
+
+                           // return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+                            return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Edit?id=' + full.Id + '">Display</a>'; }
+                         
+
+                    },
+                    {
+                        "data": "IsResolve",
+
+                        "render": function (data, type, full, meta) {
+                           
+                            // alert(userRole.localeCompare('King'));
+                            if (ResultRole) {
+                              
+                                return '<a class="btn btn-info" href="/Incident/Resolve?id=' + full.Id + '">Problem Resolved</a>';
+                            }
+                            else {
+                               
+                                target = [5],
+                                    visible = false
+                                // return meta.col[5].visible(false);
+                            }
+                        }
+                    }
+                    ////{
+                    //    "data": "Display", "title": "Display", "autoWidth": true
+
+                        //"render": function (data, type, full, meta) {
+                        //   // alert(userRole.localeCompare('King'));
+                        //    if (ResultRole) {
+                        //        alert("Comparision starts");
+                        //        alert(ResultRole);
+                        //        return '<a class="btn btn-info" href="/Incident/Edit?id=' + full.Id + '">Display</a>';
+                        //    }
+                        //    else {
+                        //        alert("Result role false");
+                        //        target = [4],
+                        //         visible = false
+                        //       // return meta.col[4].visible(false);
+                        //    }
+                           
+                            //if (userRole.localeCompare("King")) {
+                            //    alert("Not Equal Role call.");
+                            //    alert(userRole.localeCompare("King"));
+                            //    return '<a class="btn btn-info" href="/Incident/Edit?id=' + full.Id + '">Display</a>';
+
+                            //}
+                            //else {
+                               
+                            //return table.columns([4]).visible(false);
+
+                            //}
+
+                        //}
+                   /* },  */                  ,
+                    
+                    // { "data": "IsResolve" }
+
+                    //{
+                    //    "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Edit?id=' + full.Id + '">Display</a>'; }
+                    //      "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Edit?'">Edit</a>'; }
+
+                    //}
+                    //,
+
+
+                    //{
+                    //    "render": function (data, type, full, meta) {
+                    //        return '<a class="btn btn-info" href="/Incident/Resolve?id=' + full.Id + '">Problem Resolved</a>';
+                    //    }
+                    //    //  "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Incident/Edit?'">Edit</a>'; }
+
+                    //}
+
+
+
+                ]
+            });
+        });
+    </script>
+}
+<div>
+    @Html.ActionLink("Back to List", "CreateForm", "Account")
+</div>
+@*<div>
+        <input type="button"
+               value="Problem Resolved"
+               onclick="location.href='@Url.Action("Index", "Incident")'" />
+    </div>*@
